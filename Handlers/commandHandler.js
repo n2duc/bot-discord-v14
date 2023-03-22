@@ -1,12 +1,14 @@
 function loadCommands(client) {
-    const ascii = require('ascii-table');
-    const fs = require('fs');
-    const table = new ascii().setHeading("Commands", "Status")
+    const ascii = require("ascii-table");
+    const fs = require("fs");
+    const table = new ascii().setHeading("Commands", "Status");
 
     let commandsArray = [];
-    const commandsFolder = fs.readdirSync('./Commands');
+    const commandsFolder = fs.readdirSync("./Commands");
     for (const folder of commandsFolder) {
-        const commandFiles = fs.readdirSync(`./Commands/${folder}`).filter(file => file.endsWith('.js'));
+        const commandFiles = fs
+            .readdirSync(`./Commands/${folder}`)
+            .filter((file) => file.endsWith(".js"));
 
         for (const file of commandFiles) {
             const commandFile = require(`../Commands/${folder}/${file}`);
@@ -18,7 +20,7 @@ function loadCommands(client) {
         }
     }
     client.application.commands.set(commandsArray);
-    return console.log(table.toString(), "\nLoaded commands")
+    return console.log(table.toString(), "\nLoaded commands");
 }
 
-module.exports = {loadCommands};
+module.exports = { loadCommands };
