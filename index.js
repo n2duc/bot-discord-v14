@@ -6,11 +6,11 @@ const {
 } = require("discord.js");
 const { GuildMembers, Guilds, GuildMessages } = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember, Channel } = Partials;
-require("dotenv").config();
-const TOKEN = process.env.TOKEN;
 
 const { loadEvents } = require("./Handlers/eventHandler");
 const { loadCommands } = require("./Handlers/commandHandler");
+require("dotenv").config();
+const TOKEN = process.env.TOKEN;
 
 const client = new Client({
     intents: [Guilds, GuildMembers, GuildMessages],
@@ -19,6 +19,6 @@ const client = new Client({
 
 client.commands = new Collection();
 client.login(TOKEN).then(() => {
-    loadEvents(client);
     loadCommands(client);
-});
+    loadEvents(client);
+}).catch((err) => console.log(err));

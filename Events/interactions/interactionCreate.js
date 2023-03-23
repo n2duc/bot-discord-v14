@@ -2,15 +2,24 @@ const { CommandInteraction } = require("discord.js");
 
 module.exports = {
     name: "interactionCreate",
-
+    /**
+     *
+     * @param {CommandInteraction} interaction
+     */
     execute(interaction, client) {
-        if (!interaction.isChatInputCommand()) {
-            const command = client.commands.get(interaction.commandName);
+        const { commandName } = interaction;
+
+        if (interaction.isChatInputCommand()) {
+            const command = client.commands.get(commandName);
             if (!command) {
-                interaction.reply({ content: "outdated command" });
+                interaction.reply({
+                    content: "outdated command",
+                    ephemeral: true,
+                });
             }
             command.execute(interaction, client);
-        } else if (interaction.isButton()) {
+        }
+        if (interaction.isButton()) {
             const role = interaction.guild.roles.cache.get(
                 "1087304182341570560"
             );

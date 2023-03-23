@@ -4,6 +4,7 @@ function loadCommands(client) {
     const table = new ascii().setHeading("Commands", "Status");
 
     let commandsArray = [];
+
     const commandsFolder = fs.readdirSync("./Commands");
     for (const folder of commandsFolder) {
         const commandFiles = fs
@@ -12,9 +13,13 @@ function loadCommands(client) {
 
         for (const file of commandFiles) {
             const commandFile = require(`../Commands/${folder}/${file}`);
-            client.commands.set(commandFile.data.name, commandFile);
 
-            commandsArray.push(commandFile.data.toJSON());
+            const properties = { folder, ...commandFile };
+            client.commands.set(commandFile.data.name, properties);
+
+            if (commandFile.developer) developerArray.push(commandFile.data.toJSON());
+            else commandsArray.push(commandFile.data.toJSON());
+            
             table.addRow(file, "loaded");
             continue;
         }
